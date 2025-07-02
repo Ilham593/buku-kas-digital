@@ -93,3 +93,32 @@ export const updateTransaction = async (req, res) => {
     return res.status(500).json({ success: false, error: "Server Error" });
   }
 }
+
+// ... (kode lainnya)
+
+// ==========================================================
+// @desc    Mengambil satu transaksi berdasarkan ID
+// @route   GET /api/transactions/:id
+// @access  Public
+export const getTransactionById = async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(req.params.id);
+
+    if (!transaction) {
+      return res.status(404).json({
+        success: false,
+        error: 'Transaksi tidak ditemukan',
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: transaction,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      error: 'Server Error',
+    });
+  }
+};
