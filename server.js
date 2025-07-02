@@ -1,19 +1,22 @@
-// 1. mengimport express
 import express from "express";
+import connectDB from "./config/db.js";
+import transactionRouter from "./routes/transactionRoutes.js";
 
-// 2. membuat intance dari aplikasi express
+connectDB();
+
 const app = express();
 
-// 3. menentukan port
-const PORT = process.env.PORT || 3000;
+app.use(express.json());
 
-// 4. membuat route unutk pengujian
-app.get('/', (req, res) => {
-  res.send('halo server buku berjalan lancar')
-})
+const PORT = process.env.PORT || 5000;
+
+app.get("/", (req, res) => {
+  res.send("halo server buku berjalan lancar");
+});
+
+app.use("/api/transactions", transactionRouter);
 
 
-// 5. menjalankan server
 app.listen(PORT, () => {
   console.log(`server berjalan di http://localhost:${PORT}`);
-})
+});
