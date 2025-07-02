@@ -14,7 +14,7 @@ export const getTransactions = async (req, res) => {
       success: true,
       count: transaction.length,
       data: transaction,
-    })
+    });
   } catch (error) {
     return res.status(500).json({ success: false, error: error.message });
   }
@@ -44,5 +44,27 @@ export const addTransaction = async (req, res) => {
       success: false,
       error: error.message,
     });
+  }
+};
+
+// ==========================================================
+// @desc    Menghapus transaksi
+// @route   DELETE /api/transactions/:id
+// @access  Public
+
+export const deleteTransaction = async (req, res) => {
+  try {
+    const transaction = await Transaction.findById(req.params.id);
+    if (!transaction) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Transaksi tidak ditemukan" });
+    }
+
+    await Transaction.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({ success: true, data: {} });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: "Server Error" });
   }
 };
