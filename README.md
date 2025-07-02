@@ -39,7 +39,7 @@ Untuk menjalankan proyek ini di komputer lokal Anda, ikuti langkah-langkah berik
 **1. Clone Repository**
 
 ```bash
-git clone [URL_REPO_GITHUB_ANDA]
+git clone [https://github.com/Ilham593/buku-kas-digital.git]
 cd buku-kas-backend
 ```
 
