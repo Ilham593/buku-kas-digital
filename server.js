@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/db.js";
 import transactionRouter from "./routes/transactionRoutes.js";
-
+import userRouter from "./routes/userRoutes.js";
 connectDB();
 
 const app = express();
@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/transactions", transactionRouter);
-
+app.use("/api/users", userRouter);
 
 app.listen(PORT, () => {
   console.log(`server berjalan di http://localhost:${PORT}`);
