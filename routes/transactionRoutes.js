@@ -4,13 +4,17 @@ import {
   getTransactions,
   deleteTransaction,
   updateTransaction,
-  getTransactionById
+  getTransactionById,
 } from "../controllers/transactionController.js";
-
+import { protect } from "../middlewares/authMiddleware.js";
 const router = express.Router();
 
-router.route("/").get(getTransactions).post(addTransaction);
+router.route("/").get(protect, getTransactions).post(protect, addTransaction);
 
-router.route("/:id").delete(deleteTransaction).patch(updateTransaction).get(getTransactionById);
+router
+  .route("/:id")
+  .delete(protect, deleteTransaction)
+  .patch(protect, updateTransaction)
+  .get(protect, getTransactionById);
 
 export default router;
