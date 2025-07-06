@@ -6,8 +6,20 @@ import userRouter from "./routes/userRoutes.js";
 connectDB();
 
 const app = express();
+// cors origin diatur disini yang komplex
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3002",
+  "http://localhost:3003",
+  "https://buku-kas-digital.vercel.app",
+];
 
-app.use(cors());
+const options = {
+  origin: allowedOrigins,
+};
+app.use(cors(options));
+
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
