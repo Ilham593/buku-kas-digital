@@ -12,6 +12,12 @@ export const registerUser = async (req, res) => {
         .json({ success: false, error: "Email sudah terdaftar" });
     }
 
+    if (name.length < 3) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Nama minimal 3 karakter" });
+    }
+
     if (password.length < 6) {
       return res
         .status(400)
@@ -46,7 +52,7 @@ export const registerUser = async (req, res) => {
     console.log(error);
     res.status(500).json({
       success: false,
-      meesage: "terjadi kesalahan di server",
+      error: "terjadi kesalahan di server",
     });
   }
 };
@@ -57,23 +63,23 @@ export const loginUser = async (req, res) => {
 
     const user = await User.findOne({ email }).select("password");
 
-    if(!user) {
+    if (!user) {
       return res.status(400).json({
         success: false,
-        error: "User tidak ditemukan"
-      })
+        error: "User tidak ditemukan",
+      });
     }
 
-    if(!password) {
+    if (!password) {
       return res.status(400).json({
         success: false,
-        error: "Password tidak boleh kosong"
-      })
+        error: "Password tidak boleh kosong",
+      });
     }
 
     const isMatch = await user.matchPassword(password);
 
-    if(isMatch) {
+    if (isMatch) {
       res.status(200).json({
         success: true,
         data: {
@@ -85,11 +91,11 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    if(!isMatch) {
+    if (!isMatch) {
       res.status(400).json({
         success: false,
-        error: "Password atau email salah"
-      })
+        error: "Password atau email salah",
+      });
     }
   } catch (error) {
     res.status(500).json({
