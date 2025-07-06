@@ -4,6 +4,12 @@ export const registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    if (!name || !email || !password) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Semua field harus diisi" });
+    }
+
     const userExcists = await User.findOne({ email });
 
     if (userExcists) {
@@ -12,42 +18,22 @@ export const registerUser = async (req, res) => {
         .json({ success: false, error: "Email sudah terdaftar" });
     }
 
-    if (name.length < 3) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Nama minimal 3 karakter" });
-    }
-
-    if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ success: false, error: "Password minimal 6 karakter" });
-    }
-
     const newUser = await User.create({
       name,
       email,
       password,
     });
 
-    if (newUser) {
-      res.status(201).json({
-        success: true,
-        data: {
-          _id: newUser._id,
-          name: newUser.name,
-          email: newUser.email,
-          token: generateToken(newUser._id),
-        },
-      });
-    }
-
-    if (!newUser) {
-      res.status(400).json({
-        success: false,
-        error: "Gagal membuat user",
-      });
-    }
+    res.status(201).json({
+      success: true,
+      data: {
+        _id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        token: generateToken(newUser._id),
+      },
+    });
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({
