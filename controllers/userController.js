@@ -12,6 +12,12 @@ export const registerUser = async (req, res) => {
         .json({ success: false, error: "Email sudah terdaftar" });
     }
 
+    if (password.length < 6) {
+      return res
+        .status(400)
+        .json({ success: false, error: "Password minimal 6 karakter" });
+    }
+
     const newUser = await User.create({
       name,
       email,
@@ -37,9 +43,10 @@ export const registerUser = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
-      error: error.message,
+      meesage: "terjadi kesalahan di server",
     });
   }
 };
