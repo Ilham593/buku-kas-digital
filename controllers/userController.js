@@ -24,16 +24,17 @@ export const registerUser = async (req, res) => {
       password,
     });
 
-    res.status(201).json({
-      success: true,
-      data: {
-        _id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        token: generateToken(newUser._id),
-      },
-    });
-    
+    if (newUser) {
+      res.status(201).json({
+        success: true,
+        data: {
+          _id: newUser._id,
+          name: newUser.name,
+          email: newUser.email,
+          token: generateToken(newUser._id),
+        },
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({
